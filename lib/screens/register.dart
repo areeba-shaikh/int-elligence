@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:convert';
 
+
+import 'package:http/http.dart' as http;
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -17,6 +21,14 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController ageController = TextEditingController();
   TextEditingController bloodController = TextEditingController();
   TextEditingController genderController = TextEditingController();
+  Future<List> senddata() async {
+  final response = await http.post("https://int-elligence.000webhostapp.com//insertdata.php", body: {
+    "name": nameController.text,
+    "email": emailController.text,
+    "mobile":mobileController.text,
+  });
+}
+
   Item selectedUser;
   Item selectedUser1;
   List<Item> blood = <Item>[
@@ -187,7 +199,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 height: 30,
               ),
               RaisedButton(
-                onPressed: () {},
+                onPressed: () {
+                   senddata;
+                },
                 color: Colors.blue,
                 textColor: Colors.white,
                 //padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
