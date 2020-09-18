@@ -2,8 +2,9 @@ import 'package:ambulance/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
-
+import 'database-manager.dart';
 import 'package:http/http.dart' as http;
+import 'User.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -24,14 +25,30 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController ageController = TextEditingController();
   TextEditingController bloodController = TextEditingController();
   TextEditingController genderController = TextEditingController();
-  Future<List> senddata() async {
-    final response = await http
-        .post("https://int-elligence.000webhostapp.com//insertdata.php", body: {
-      "name": nameController.text,
-      "email": emailController.text,
-      "mobile": mobileController.text,
-    });
+  Future getData() async{
+    var url = 'https://int-elligence.000webhostapp.com/get.php';
+    http.Response response = await http.get(url);
+    var data = jsonDecode(response.body);
+    print(data.toString());
   }
+
+  @override
+  void initState() {
+    getData();
+  }
+
+  Future<dynamic> senddata() async {
+    DBManager.db.registerUser(new User(nameController.text,
+      emailController.text,
+      mobileController.text,
+    ));
+
+  }
+
+
+
+
+
 
   Item selectedblood;
   Item selectedgender;
@@ -229,6 +246,7 @@ class _RegisterPageState extends State<RegisterPage> {
               RaisedButton(
                 onPressed: () {
                   if (passController.text == conpassController.text) {
+                    senddata();
                     Navigator.push(
                         context,
                         MaterialPageRoute(

@@ -31,6 +31,7 @@ dependencies:
   hexcolor: ^1.0.4
   url_launcher: ^5.6.0
   http: ^0.12.2
+  connectivity:
 
 flutter_icons:
   image_path_android: "assets/images/ICON.jpeg"
