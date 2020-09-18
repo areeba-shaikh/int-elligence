@@ -1,3 +1,4 @@
+import 'package:ambulance/screens/login.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -12,6 +13,8 @@ class Item {
 
 class _RegisterPageState extends State<RegisterPage> {
   TextEditingController nameController = TextEditingController();
+  TextEditingController passController = TextEditingController();
+  TextEditingController conpassController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
   TextEditingController ageController = TextEditingController();
@@ -70,6 +73,30 @@ class _RegisterPageState extends State<RegisterPage> {
                 autocorrect: true,
                 decoration: InputDecoration(
                   hintText: 'Email',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: passController,
+                autocorrect: true,
+                obscureText: true,
+                decoration: InputDecoration(
+                  hintText: 'Password',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: conpassController,
+                autocorrect: true,
+                obscureText: true,
+                decoration: InputDecoration(
+                  hintText: 'Confirm Password',
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -187,7 +214,25 @@ class _RegisterPageState extends State<RegisterPage> {
                 height: 30,
               ),
               RaisedButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (passController.text == conpassController.text) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Login(),
+                        ));
+                  } else {
+                    showAlertDialog(context);
+                  }
+                  nameController.text = "";
+                  passController.text = "";
+                  conpassController.text = "";
+                  emailController.text = "";
+                  mobileController.text = "";
+                  bloodController.text = "";
+                  ageController.text = "";
+                  genderController.text = "";
+                },
                 color: Colors.blue,
                 textColor: Colors.white,
                 //padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
@@ -197,4 +242,31 @@ class _RegisterPageState extends State<RegisterPage> {
           )),
     );
   }
+}
+
+showAlertDialog(BuildContext context) {
+  // Create button
+  Widget okButton = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // Create AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Error!!"),
+    content: Text("Passwords Doesn't Match"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
