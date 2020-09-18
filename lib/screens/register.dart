@@ -1,9 +1,10 @@
+import 'package:ambulance/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 
-
 import 'package:http/http.dart' as http;
+
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -16,22 +17,25 @@ class Item {
 
 class _RegisterPageState extends State<RegisterPage> {
   TextEditingController nameController = TextEditingController();
+  TextEditingController passController = TextEditingController();
+  TextEditingController conpassController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController bloodController = TextEditingController();
   TextEditingController genderController = TextEditingController();
   Future<List> senddata() async {
-  final response = await http.post("https://int-elligence.000webhostapp.com//insertdata.php", body: {
-    "name": nameController.text,
-    "email": emailController.text,
-    "mobile":mobileController.text,
-  });
-}
+    final response = await http
+        .post("https://int-elligence.000webhostapp.com//insertdata.php", body: {
+      "name": nameController.text,
+      "email": emailController.text,
+      "mobile": mobileController.text,
+    });
+  }
 
-  Item selectedUser;
-  Item selectedUser1;
-  List<Item> blood = <Item>[
+  Item selectedblood;
+  Item selectedgender;
+  List<Item> bloods = <Item>[
     const Item('A +ve'),
     const Item('A -ve'),
     const Item('B +ve'),
@@ -41,7 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
     const Item('O +ve'),
     const Item('O -ve')
   ];
-  List<Item> gender = <Item>[
+  List<Item> genders = <Item>[
     const Item("Male"),
     const Item("Female"),
   ];
@@ -89,6 +93,30 @@ class _RegisterPageState extends State<RegisterPage> {
                 height: 10,
               ),
               TextField(
+                controller: passController,
+                autocorrect: true,
+                obscureText: true,
+                decoration: InputDecoration(
+                  hintText: 'Password',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: conpassController,
+                autocorrect: true,
+                obscureText: true,
+                decoration: InputDecoration(
+                  hintText: 'Confirm Password',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              TextField(
                 controller: ageController,
                 autocorrect: true,
                 decoration: InputDecoration(
@@ -115,23 +143,23 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: DropdownButton<Item>(
                       isExpanded: true,
                       hint: Text("   Gender"),
-                      value: selectedUser,
+                      value: selectedgender,
                       // ignore: non_constant_identifier_names
                       onChanged: (Item Value) {
                         setState(() {
-                          selectedUser = Value;
+                          selectedgender = Value;
                         });
                       },
-                      items: gender.map((Item user) {
+                      items: genders.map((Item gender) {
                         return DropdownMenuItem<Item>(
-                          value: user,
+                          value: gender,
                           child: Row(
                             children: <Widget>[
                               SizedBox(
                                 width: 10,
                               ),
                               Text(
-                                user.name,
+                                gender.name,
                                 style: TextStyle(color: Colors.black),
                               ),
                             ],
@@ -159,23 +187,23 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: DropdownButton<Item>(
                       isExpanded: true,
                       hint: Text("   Blood Group"),
-                      value: selectedUser,
+                      value: selectedblood,
                       // ignore: non_constant_identifier_names
                       onChanged: (Item Value) {
                         setState(() {
-                          selectedUser = Value;
+                          selectedblood = Value;
                         });
                       },
-                      items: blood.map((Item user) {
+                      items: bloods.map((Item bloodgp) {
                         return DropdownMenuItem<Item>(
-                          value: user,
+                          value: bloodgp,
                           child: Row(
                             children: <Widget>[
                               SizedBox(
                                 width: 10,
                               ),
                               Text(
-                                user.name,
+                                bloodgp.name,
                                 style: TextStyle(color: Colors.black),
                               ),
                             ],
@@ -200,7 +228,23 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               RaisedButton(
                 onPressed: () {
-                   senddata;
+                  if (passController.text == conpassController.text) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Login(),
+                        ));
+                  } else {
+                    showAlertDialog(context);
+                  }
+                  nameController.text = "";
+                  passController.text = "";
+                  conpassController.text = "";
+                  emailController.text = "";
+                  mobileController.text = "";
+                  bloodController.text = "";
+                  ageController.text = "";
+                  genderController.text = "";
                 },
                 color: Colors.blue,
                 textColor: Colors.white,
@@ -211,4 +255,31 @@ class _RegisterPageState extends State<RegisterPage> {
           )),
     );
   }
+}
+
+showAlertDialog(BuildContext context) {
+  // Create button
+  Widget okButton = FlatButton(
+    child: Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // Create AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Error!!"),
+    content: Text("Passwords Doesn't Match"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

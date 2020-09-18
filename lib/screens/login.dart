@@ -1,5 +1,7 @@
+import 'package:ambulance/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:ambulance/screens/register.dart';
+import 'package:ambulance/screens/emergency.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -13,7 +15,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text("Welcome to Dial 108 App"),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
           padding: const EdgeInsets.all(15.0),
           child: Center(
             child: Column(
@@ -61,6 +63,25 @@ class _HomeState extends State<Home> {
                     child: Text("Register"),
                   ),
                 ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  width: double.infinity,
+                  child: RaisedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Emergency(),
+                          ));
+                    },
+                    color: Colors.red,
+                    textColor: Colors.white,
+                    //padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
+                    child: Text("Emergency"),
+                  ),
+                ),
               ],
             ),
           )),
@@ -82,7 +103,7 @@ class _LoginState extends State<Login> {
       appBar: AppBar(
         title: Text("Login"),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
           padding: const EdgeInsets.all(15.0),
           child: Center(
             child: Column(
@@ -121,7 +142,13 @@ class _LoginState extends State<Login> {
                   height: 30,
                 ),
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ));
+                  },
                   color: Colors.green,
                   textColor: Colors.white,
                   // padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
