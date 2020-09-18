@@ -25,7 +25,6 @@ class _EmergencyState extends State<Emergency> {
         ],
       ),
       body: SingleChildScrollView(
-      
         child: Container(
           decoration: BoxDecoration(color: Colors.red[400]),
           height: double.maxFinite,
@@ -90,7 +89,7 @@ class _EmergencyState extends State<Emergency> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => callambulance(),
+                          builder: (context) => Callambulance(),
                         ));
 
                     nameController.text = " ";

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class callambulance extends StatefulWidget {
+class Callambulance extends StatefulWidget {
   @override
-  _callambulanceState createState() => _callambulanceState();
+  _CallambulanceState createState() => _CallambulanceState();
 }
 
-class _callambulanceState extends State<callambulance> {
+class _CallambulanceState extends State<Callambulance> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
