@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:convert';
 
-
 import 'package:http/http.dart' as http;
+
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -25,16 +25,17 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController bloodController = TextEditingController();
   TextEditingController genderController = TextEditingController();
   Future<List> senddata() async {
-  final response = await http.post("https://int-elligence.000webhostapp.com//insertdata.php", body: {
-    "name": nameController.text,
-    "email": emailController.text,
-    "mobile":mobileController.text,
-  });
-}
+    final response = await http
+        .post("https://int-elligence.000webhostapp.com//insertdata.php", body: {
+      "name": nameController.text,
+      "email": emailController.text,
+      "mobile": mobileController.text,
+    });
+  }
 
-  Item selectedUser;
-  Item selectedUser1;
-  List<Item> blood = <Item>[
+  Item selectedblood;
+  Item selectedgender;
+  List<Item> bloods = <Item>[
     const Item('A +ve'),
     const Item('A -ve'),
     const Item('B +ve'),
@@ -44,7 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
     const Item('O +ve'),
     const Item('O -ve')
   ];
-  List<Item> gender = <Item>[
+  List<Item> genders = <Item>[
     const Item("Male"),
     const Item("Female"),
   ];
@@ -142,23 +143,23 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: DropdownButton<Item>(
                       isExpanded: true,
                       hint: Text("   Gender"),
-                      value: selectedUser,
+                      value: selectedgender,
                       // ignore: non_constant_identifier_names
                       onChanged: (Item Value) {
                         setState(() {
-                          selectedUser = Value;
+                          selectedgender = Value;
                         });
                       },
-                      items: gender.map((Item user) {
+                      items: genders.map((Item gender) {
                         return DropdownMenuItem<Item>(
-                          value: user,
+                          value: gender,
                           child: Row(
                             children: <Widget>[
                               SizedBox(
                                 width: 10,
                               ),
                               Text(
-                                user.name,
+                                gender.name,
                                 style: TextStyle(color: Colors.black),
                               ),
                             ],
@@ -186,23 +187,23 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: DropdownButton<Item>(
                       isExpanded: true,
                       hint: Text("   Blood Group"),
-                      value: selectedUser,
+                      value: selectedblood,
                       // ignore: non_constant_identifier_names
                       onChanged: (Item Value) {
                         setState(() {
-                          selectedUser = Value;
+                          selectedblood = Value;
                         });
                       },
-                      items: blood.map((Item user) {
+                      items: bloods.map((Item bloodgp) {
                         return DropdownMenuItem<Item>(
-                          value: user,
+                          value: bloodgp,
                           child: Row(
                             children: <Widget>[
                               SizedBox(
                                 width: 10,
                               ),
                               Text(
-                                user.name,
+                                bloodgp.name,
                                 style: TextStyle(color: Colors.black),
                               ),
                             ],
@@ -227,7 +228,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               RaisedButton(
                 onPressed: () {
-<<<<<<< HEAD
                   if (passController.text == conpassController.text) {
                     Navigator.push(
                         context,
@@ -245,9 +245,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   bloodController.text = "";
                   ageController.text = "";
                   genderController.text = "";
-=======
-                   senddata;
->>>>>>> refs/remotes/origin/master
                 },
                 color: Colors.blue,
                 textColor: Colors.white,
