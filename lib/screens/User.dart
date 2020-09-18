@@ -1,8 +1,14 @@
 class User {
-  String name, email, mobile;
-  User(String n, String e, String m) {
+  String name, email,password,gender,bloodGroup, mobile,age;
+  User(String n,String e,String p,String g,String b,String m,String a) {
     name = n;
     email = e;
+    password = p;
+    gender = g;
+    bloodGroup = g;
+    age = a;
     mobile = m;
+
+
   }
 }

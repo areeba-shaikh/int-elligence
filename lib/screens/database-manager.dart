@@ -8,6 +8,14 @@ class DBManager {
   DBManager._();
 
   static final DBManager db = DBManager._();
+
+
+  Future getData() async{
+    var url = 'https://int-elligence.000webhostapp.com/get.php';
+    http.Response response = await http.get(url);
+    var data = jsonDecode(response.body);
+    print(data.toString());
+  }
   Future<dynamic> registerUser(User u ) async {
     print("Calling register user");
     var responseJson;
@@ -20,6 +28,10 @@ class DBManager {
             "name": u.name,
             "email": u.email,
             "mobile": u.mobile,
+            "password":u.password,
+            "gender":u.gender,
+            "bloodGroup":u.bloodGroup,
+            "age":u.age
           }
           ));
       responseJson = _response(response);
