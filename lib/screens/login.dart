@@ -101,15 +101,10 @@ class _LoginState extends State<Login> {
   TextEditingController passwordController = TextEditingController();
 
   Future<dynamic> senddata() async {
-    DBManager.db.loginUser(new User.login(
-      emailController.text,
-passwordController.text
-
-  
-
-    ));
-
+    DBManager.db.loginUser(
+        new User.login(emailController.text, passwordController.text));
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -156,12 +151,38 @@ passwordController.text
                 ),
                 RaisedButton(
                   onPressed: () {
-                    senddata();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomePage(),
-                        ));
+                    Future<dynamic> loginFuture = DBManager.db.loginUser(
+                        new User.login(
+                            emailController.text, passwordController.text));
+
+                    loginFuture
+                        .then((data) => {
+                              //TODO: Show success message snackbar
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HomePage(),
+                                  ))
+                            })
+                        .catchError((err) => {
+                              //TODO: Show failure message snackbar
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: new Text("Login failed: Incorrect username or password"),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: new Text("OK"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              )
+                            });
                   },
                   color: Colors.green,
                   textColor: Colors.white,

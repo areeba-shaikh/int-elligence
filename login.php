@@ -28,6 +28,8 @@ include "config.php";
 	    } 
 	    else
 	    {
+
+	        header('HTTP/1.1 401 Unauthorized');
 	        echo "Login failure";
 	    }
 	    ?>

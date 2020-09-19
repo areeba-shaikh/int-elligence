@@ -17,7 +17,7 @@ class DBManager {
     print(data.toString());
   }
   Future<dynamic> registerUser(User u ) async {
-    print("Calling register user");
+    print("Registering user");
     var responseJson;
     try {
       final response =  await http.post("https://int-elligence.000webhostapp.com/insertdata.php",

@@ -26,25 +26,6 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController bloodController = TextEditingController();
   TextEditingController genderController = TextEditingController();
 
-
-
-
-  Future<dynamic> senddata() async {
-    DBManager.db.registerUser(new User(nameController.text,
-      emailController.text,
-passController.text,genderController.text,bloodController.text,
-
-      mobileController.text,ageController.text
-
-    ));
-
-  }
-
-
-
-
-
-
   Item selectedblood;
   Item selectedgender;
   List<Item> bloods = <Item>[
@@ -241,12 +222,21 @@ passController.text,genderController.text,bloodController.text,
               RaisedButton(
                 onPressed: () {
                   if (passController.text == conpassController.text) {
-                    senddata();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Login(),
-                        ));
+                    Future<dynamic> registerFuture = DBManager.db.registerUser(new User(nameController.text,
+                        emailController.text, passController.text,
+                        genderController.text,bloodController.text,
+                        mobileController.text,ageController.text
+                    ));
+                    registerFuture.then((data) => {
+                      //TODO: Show success message snackbar
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                      builder: (context) => Login(),
+                      ))
+                    }).catchError((err) => {
+                      //TODO: Show failure message snackbar
+                    });
                   } else {
                     showAlertDialog(context);
                   }
