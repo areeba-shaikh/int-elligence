@@ -1,9 +1,9 @@
 import 'package:ambulance/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'dart:convert';
+
 import 'database-manager.dart';
-import 'package:http/http.dart' as http;
+
 import 'User.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -26,6 +26,8 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController bloodController = TextEditingController();
   TextEditingController genderController = TextEditingController();
 
+
+  
   Item selectedblood;
   Item selectedgender;
   List<Item> bloods = <Item>[
@@ -69,6 +71,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   hintText: 'Name',
                   border: OutlineInputBorder(),
+                  labelText: 'Name',
                 ),
               ),
               SizedBox(
@@ -80,6 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   hintText: 'Email',
                   border: OutlineInputBorder(),
+                  labelText: 'Email',
                 ),
               ),
               SizedBox(
@@ -92,6 +96,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   hintText: 'Password',
                   border: OutlineInputBorder(),
+                  labelText: 'Password',
                 ),
               ),
               SizedBox(
@@ -104,6 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   hintText: 'Confirm Password',
                   border: OutlineInputBorder(),
+                  labelText: 'Confirm Password',
                 ),
               ),
               SizedBox(
@@ -115,6 +121,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   hintText: 'Age',
                   border: OutlineInputBorder(),
+                  labelText: 'Age',
                 ),
               ),
               SizedBox(
