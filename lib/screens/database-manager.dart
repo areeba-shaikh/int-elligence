@@ -4,15 +4,17 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:connectivity/connectivity.dart';
 import 'User.dart';
+
 class DBManager {
   DBManager._();
 
   static final DBManager db = DBManager._();
-  Future<dynamic> registerUser(User u ) async {
+  Future<dynamic> registerUser(User u) async {
     print("Calling register user");
     var responseJson;
     try {
-      final response =  await http.post("https://int-elligence.000webhostapp.com/insertdata.php",
+      final response = await http.post(
+          "https://int-elligence.000webhostapp.com/insertdata.php",
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
@@ -20,8 +22,7 @@ class DBManager {
             "name": u.name,
             "email": u.email,
             "mobile": u.mobile,
-          }
-          ));
+          }));
       responseJson = _response(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');
@@ -44,10 +45,12 @@ class DBManager {
       case 500:
 
       default:
-        throw FetchDataException( 'Error occured while Communication with Server with StatusCode :${response.statusCode}');
-        }
-        }
+        throw FetchDataException(
+            'Error occured while Communication with Server with StatusCode :${response.statusCode}');
+    }
+  }
 }
+
 class CustomException implements Exception {
   final _message;
   final _prefix;

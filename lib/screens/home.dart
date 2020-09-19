@@ -1,5 +1,7 @@
+import 'package:ambulance/screens/initial.dart';
 import 'package:flutter/material.dart';
-// import 'package:ambulance/screens/register.dart';
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:ambulance/screens/bookambulance.dart';
 // import 'package:ambulance/screens/login.dart';
 
 class HomePage extends StatefulWidget {
@@ -152,7 +154,11 @@ class _HomePageState extends State<HomePage> {
                         hoverColor: Colors.lightBlue,
                         focusColor: Colors.indigo,
                         onTap: () {
-                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Home(),
+                              ));
                         },
                       ),
                     ],
@@ -197,11 +203,11 @@ class _HomePageState extends State<HomePage> {
                     width: 150,
                     child: RaisedButton(
                       onPressed: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => RegisterPage(),
-                        //     ));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BookAmbulance(),
+                            ));
                       },
                       color: Colors.blue,
                       textColor: Colors.white,
@@ -216,13 +222,8 @@ class _HomePageState extends State<HomePage> {
                     height: 100,
                     width: 150,
                     child: RaisedButton(
-                      onPressed: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => RegisterPage(),
-                        //     ));
-                      },
+                      onPressed: () =>
+                          MapsLauncher.launchQuery('Nearby Clinics'),
                       color: Colors.blue,
                       textColor: Colors.white,
                       //padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
@@ -243,13 +244,8 @@ class _HomePageState extends State<HomePage> {
                     height: 100,
                     width: 150,
                     child: RaisedButton(
-                      onPressed: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => RegisterPage(),
-                        //     ));
-                      },
+                      onPressed: () =>
+                          MapsLauncher.launchQuery('Nearby Medical Store'),
                       color: Colors.blue,
                       textColor: Colors.white,
                       //padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
@@ -263,13 +259,8 @@ class _HomePageState extends State<HomePage> {
                     height: 100,
                     width: 150,
                     child: RaisedButton(
-                      onPressed: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => RegisterPage(),
-                        //     ));
-                      },
+                      onPressed: () =>
+                          MapsLauncher.launchQuery('Nearby Hospitals'),
                       color: Colors.blue,
                       textColor: Colors.white,
                       //padding: EdgeInsets.fromLTRB(9, 9, 9, 9),

@@ -31,7 +31,13 @@ dependencies:
   hexcolor: ^1.0.4
   url_launcher: ^5.6.0
   http: ^0.12.2
-  connectivity:
+  connectivity: ^0.4.9+2
+  latlong: ^0.6.1
+  maps_launcher: ^1.2.2+1
+  datetime_picker_formfield: ^1.0.0
+  flutter_datetime_picker: ^1.4.0
+  location: ^3.0.2
+  geocoder: ^0.2.1
 
 flutter_icons:
   image_path_android: "assets/images/ICON.jpeg"
@@ -55,6 +61,7 @@ flutter:
     - assets/images/register.png
     - assets/images/ICON.jpeg
     - assets/images/splash.jpeg
+    - assets/images/path.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

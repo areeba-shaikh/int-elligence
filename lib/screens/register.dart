@@ -25,7 +25,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController ageController = TextEditingController();
   TextEditingController bloodController = TextEditingController();
   TextEditingController genderController = TextEditingController();
-  Future getData() async{
+  Future getData() async {
     var url = 'https://int-elligence.000webhostapp.com/get.php';
     http.Response response = await http.get(url);
     var data = jsonDecode(response.body);
@@ -34,21 +34,17 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void initState() {
+    super.initState();
     getData();
   }
 
   Future<dynamic> senddata() async {
-    DBManager.db.registerUser(new User(nameController.text,
+    DBManager.db.registerUser(new User(
+      nameController.text,
       emailController.text,
       mobileController.text,
     ));
-
   }
-
-
-
-
-
 
   Item selectedblood;
   Item selectedgender;
@@ -93,6 +89,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   hintText: 'Name',
                   border: OutlineInputBorder(),
+                  labelText: 'Name',
                 ),
               ),
               SizedBox(
@@ -104,6 +101,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   hintText: 'Email',
                   border: OutlineInputBorder(),
+                  labelText: 'Email',
                 ),
               ),
               SizedBox(
@@ -116,6 +114,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   hintText: 'Password',
                   border: OutlineInputBorder(),
+                  labelText: 'Password',
                 ),
               ),
               SizedBox(
@@ -128,6 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   hintText: 'Confirm Password',
                   border: OutlineInputBorder(),
+                  labelText: 'Confirm Password',
                 ),
               ),
               SizedBox(
@@ -139,6 +139,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   hintText: 'Age',
                   border: OutlineInputBorder(),
+                  labelText: 'Age',
                 ),
               ),
               SizedBox(
