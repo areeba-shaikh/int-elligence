@@ -22,4 +22,5 @@ if($results>0)
 {
     echo "user added successfully";
 }
+
 ?>

@@ -41,6 +41,29 @@ class DBManager {
     return responseJson;
   }
 
+  Future<dynamic> loginUser(User u ) async {
+    print("Calling register user");
+    var responseJson;
+    try {
+      final response =  await http.post("https://int-elligence.000webhostapp.com/login.php",
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, String>{
+            
+            "email": u.email,
+           
+            "password":u.password
+           
+          }
+          ));
+      responseJson = _response(response);
+    } on SocketException {
+      throw FetchDataException('No Internet connection');
+    }
+    return responseJson;
+  }
+
   dynamic _response(http.Response response) {
     print("==================Statuscode");
     print(response.statusCode);

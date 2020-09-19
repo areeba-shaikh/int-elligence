@@ -2,6 +2,8 @@ import 'package:ambulance/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:ambulance/screens/register.dart';
 import 'package:ambulance/screens/emergency.dart';
+import 'database-manager.dart';
+import 'User.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -97,6 +99,17 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  Future<dynamic> senddata() async {
+    DBManager.db.loginUser(new User.login(
+      emailController.text,
+passwordController.text
+
+  
+
+    ));
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,6 +156,7 @@ class _LoginState extends State<Login> {
                 ),
                 RaisedButton(
                   onPressed: () {
+                    senddata();
                     Navigator.push(
                         context,
                         MaterialPageRoute(

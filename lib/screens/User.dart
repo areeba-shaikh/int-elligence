@@ -11,4 +11,13 @@ class User {
 
 
   }
+
+  User.login(String e,String p) {
+    
+    email = e;
+    password = p;
+    
+
+
+  }
 }
