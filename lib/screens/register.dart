@@ -25,6 +25,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController ageController = TextEditingController();
   TextEditingController bloodController = TextEditingController();
   TextEditingController genderController = TextEditingController();
+<<<<<<< HEAD
   Future getData() async {
     var url = 'https://int-elligence.000webhostapp.com/get.php';
     http.Response response = await http.get(url);
@@ -37,12 +38,20 @@ class _RegisterPageState extends State<RegisterPage> {
     super.initState();
     getData();
   }
+=======
+
+
+
+>>>>>>> 86a75d6260b90347727bcf58230994ae2ddb1cfd
 
   Future<dynamic> senddata() async {
     DBManager.db.registerUser(new User(
       nameController.text,
       emailController.text,
-      mobileController.text,
+passController.text,genderController.text,bloodController.text,
+
+      mobileController.text,ageController.text
+
     ));
   }
 

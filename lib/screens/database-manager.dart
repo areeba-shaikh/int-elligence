@@ -9,7 +9,19 @@ class DBManager {
   DBManager._();
 
   static final DBManager db = DBManager._();
+<<<<<<< HEAD
   Future<dynamic> registerUser(User u) async {
+=======
+
+
+  Future getData() async{
+    var url = 'https://int-elligence.000webhostapp.com/get.php';
+    http.Response response = await http.get(url);
+    var data = jsonDecode(response.body);
+    print(data.toString());
+  }
+  Future<dynamic> registerUser(User u ) async {
+>>>>>>> 86a75d6260b90347727bcf58230994ae2ddb1cfd
     print("Calling register user");
     var responseJson;
     try {
@@ -22,7 +34,39 @@ class DBManager {
             "name": u.name,
             "email": u.email,
             "mobile": u.mobile,
+<<<<<<< HEAD
           }));
+=======
+            "password":u.password,
+            "gender":u.gender,
+            "bloodGroup":u.bloodGroup,
+            "age":u.age
+          }
+          ));
+      responseJson = _response(response);
+    } on SocketException {
+      throw FetchDataException('No Internet connection');
+    }
+    return responseJson;
+  }
+
+  Future<dynamic> loginUser(User u ) async {
+    print("Calling register user");
+    var responseJson;
+    try {
+      final response =  await http.post("https://int-elligence.000webhostapp.com/login.php",
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, String>{
+            
+            "email": u.email,
+           
+            "password":u.password
+           
+          }
+          ));
+>>>>>>> 86a75d6260b90347727bcf58230994ae2ddb1cfd
       responseJson = _response(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');
