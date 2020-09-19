@@ -1,7 +1,6 @@
 import 'package:ambulance/screens/home.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-=======
+
 import 'package:ambulance/screens/register.dart';
 import 'package:ambulance/screens/emergency.dart';
 import 'database-manager.dart';
@@ -92,7 +91,7 @@ class _HomeState extends State<Home> {
     );
   }
 }
->>>>>>> 86a75d6260b90347727bcf58230994ae2ddb1cfd
+
 
 class Login extends StatefulWidget {
   @override
