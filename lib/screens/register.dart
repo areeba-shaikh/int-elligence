@@ -1,5 +1,10 @@
 import 'package:ambulance/screens/login.dart';
 import 'package:flutter/material.dart';
+import 'dart:async';
+
+import 'database-manager.dart';
+
+import 'User.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -20,9 +25,12 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController ageController = TextEditingController();
   TextEditingController bloodController = TextEditingController();
   TextEditingController genderController = TextEditingController();
-  Item selectedUser;
-  Item selectedUser1;
-  List<Item> blood = <Item>[
+
+
+  
+  Item selectedblood;
+  Item selectedgender;
+  List<Item> bloods = <Item>[
     const Item('A +ve'),
     const Item('A -ve'),
     const Item('B +ve'),
@@ -32,7 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
     const Item('O +ve'),
     const Item('O -ve')
   ];
-  List<Item> gender = <Item>[
+  List<Item> genders = <Item>[
     const Item("Male"),
     const Item("Female"),
   ];
@@ -63,6 +71,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   hintText: 'Name',
                   border: OutlineInputBorder(),
+                  labelText: 'Name',
                 ),
               ),
               SizedBox(
@@ -74,6 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   hintText: 'Email',
                   border: OutlineInputBorder(),
+                  labelText: 'Email',
                 ),
               ),
               SizedBox(
@@ -86,6 +96,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   hintText: 'Password',
                   border: OutlineInputBorder(),
+                  labelText: 'Password',
                 ),
               ),
               SizedBox(
@@ -98,6 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   hintText: 'Confirm Password',
                   border: OutlineInputBorder(),
+                  labelText: 'Confirm Password',
                 ),
               ),
               SizedBox(
@@ -109,6 +121,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   hintText: 'Age',
                   border: OutlineInputBorder(),
+                  labelText: 'Age',
                 ),
               ),
               SizedBox(
@@ -130,23 +143,23 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: DropdownButton<Item>(
                       isExpanded: true,
                       hint: Text("   Gender"),
-                      value: selectedUser,
+                      value: selectedgender,
                       // ignore: non_constant_identifier_names
                       onChanged: (Item Value) {
                         setState(() {
-                          selectedUser = Value;
+                          selectedgender = Value;
                         });
                       },
-                      items: gender.map((Item user) {
+                      items: genders.map((Item gender) {
                         return DropdownMenuItem<Item>(
-                          value: user,
+                          value: gender,
                           child: Row(
                             children: <Widget>[
                               SizedBox(
                                 width: 10,
                               ),
                               Text(
-                                user.name,
+                                gender.name,
                                 style: TextStyle(color: Colors.black),
                               ),
                             ],
@@ -174,23 +187,23 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: DropdownButton<Item>(
                       isExpanded: true,
                       hint: Text("   Blood Group"),
-                      value: selectedUser,
+                      value: selectedblood,
                       // ignore: non_constant_identifier_names
                       onChanged: (Item Value) {
                         setState(() {
-                          selectedUser = Value;
+                          selectedblood = Value;
                         });
                       },
-                      items: blood.map((Item user) {
+                      items: bloods.map((Item bloodgp) {
                         return DropdownMenuItem<Item>(
-                          value: user,
+                          value: bloodgp,
                           child: Row(
                             children: <Widget>[
                               SizedBox(
                                 width: 10,
                               ),
                               Text(
-                                user.name,
+                                bloodgp.name,
                                 style: TextStyle(color: Colors.black),
                               ),
                             ],
@@ -216,11 +229,21 @@ class _RegisterPageState extends State<RegisterPage> {
               RaisedButton(
                 onPressed: () {
                   if (passController.text == conpassController.text) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Login(),
-                        ));
+                    Future<dynamic> registerFuture = DBManager.db.registerUser(new User(nameController.text,
+                        emailController.text, passController.text,
+                        genderController.text,bloodController.text,
+                        mobileController.text,ageController.text
+                    ));
+                    registerFuture.then((data) => {
+                      //TODO: Show success message snackbar
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                      builder: (context) => Login(),
+                      ))
+                    }).catchError((err) => {
+                      //TODO: Show failure message snackbar
+                    });
                   } else {
                     showAlertDialog(context);
                   }
