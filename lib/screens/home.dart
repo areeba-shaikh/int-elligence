@@ -1,7 +1,11 @@
 import 'package:ambulance/screens/initial.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:ambulance/screens/bookambulance.dart';
+import 'package:ambulance/screens/profile.dart';
+import 'package:location/location.dart';
+import 'package:geocoder/geocoder.dart';
 // import 'package:ambulance/screens/login.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,6 +14,42 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    getUserLocation();
+  }
+
+  //TextEditingController locController = TextEditingController();
+  getUserLocation() async {
+    //call this async method from whereever you need
+
+    LocationData myLocation;
+    String error;
+    Location location = new Location();
+    try {
+      myLocation = await location.getLocation();
+    } on PlatformException catch (e) {
+      if (e.code == 'PERMISSION_DENIED') {
+        error = 'please grant permission';
+        print(error);
+      }
+      if (e.code == 'PERMISSION_DENIED_NEVER_ASK') {
+        error = 'permission denied- please enable it from app settings';
+        print(error);
+      }
+      myLocation = null;
+    }
+    final coordinates =
+        new Coordinates(myLocation.latitude, myLocation.longitude);
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var first = addresses.first;
+    print(' ${first.subLocality},${first.locality}, ${first.adminArea}, ');
+    //locController.text = first.addressLine;
+    return first;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,14 +92,14 @@ class _HomePageState extends State<HomePage> {
                                 fontSize: 20,
                               ),
                             ),
-                            Text(
-                              "Location",
-                              textAlign: TextAlign.left,
-                              maxLines: 2,
-                              style: TextStyle(
-                                fontSize: 20,
-                              ),
-                            ),
+                            // Text(
+                            //   "${first.addressLine})",
+                            //   textAlign: TextAlign.left,
+                            //   maxLines: 2,
+                            //   style: TextStyle(
+                            //     fontSize: 20,
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
@@ -84,7 +124,11 @@ class _HomePageState extends State<HomePage> {
                         hoverColor: Colors.lightBlue,
                         focusColor: Colors.indigo,
                         onTap: () {
-                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MyProfile(),
+                              ));
                         },
                       ),
                       Divider(
