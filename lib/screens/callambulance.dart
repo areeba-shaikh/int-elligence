@@ -1,3 +1,4 @@
+import 'package:ambulance/screens/hospitalsList.dart';
 import 'package:flutter/material.dart';
 
 class Callambulance extends StatefulWidget {
@@ -21,14 +22,25 @@ class _CallambulanceState extends State<Callambulance> {
             SizedBox(
               height: 50,
             ),
-            Container(
-              child: RaisedButton(
-                onPressed: () {},
-                color: Colors.red[600],
+            RaisedButton(
+              onPressed: () {},
+              color: Colors.red[600],
+              textColor: Colors.white,
+              child: Text("STOP"),
+            ),
+            RaisedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Hospitals(),
+                      ));
+                },
+                color: Colors.grey,
                 textColor: Colors.white,
-                child: Text("STOP"),
-              ),
-            )
+                child: Icon(
+                  Icons.search,
+                ))
           ],
         ),
       ),

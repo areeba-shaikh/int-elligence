@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
                   width: 300,
                 ),
                 SizedBox(
-                  height: 150,
+                  height: 80,
                 ),
                 Container(
                   width: double.infinity,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:ambulance/screens/hospitalsList.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:location/location.dart';
 import 'package:geocoder/geocoder.dart';
@@ -14,6 +15,32 @@ class BookAmbulance extends StatefulWidget {
 class Item {
   const Item(this.name);
   final String name;
+}
+
+class SizeConfig {
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+  static double blockSizeHorizontal;
+  static double blockSizeVertical;
+  static double _safeAreaHorizontal;
+  static double _safeAreaVertical;
+  static double safeBlockHorizontal;
+  static double safeBlockVertical;
+
+  void init(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+    blockSizeHorizontal = screenWidth / 100;
+    blockSizeVertical = screenHeight / 100;
+    _safeAreaHorizontal =
+        _mediaQueryData.padding.left + _mediaQueryData.padding.right;
+    _safeAreaVertical =
+        _mediaQueryData.padding.top + _mediaQueryData.padding.bottom;
+    safeBlockHorizontal = (screenWidth - _safeAreaHorizontal) / 100;
+    safeBlockVertical = (screenHeight - _safeAreaVertical) / 100;
+  }
 }
 
 class _BookAmbulanceState extends State<BookAmbulance> {
@@ -60,6 +87,7 @@ class _BookAmbulanceState extends State<BookAmbulance> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Book Ambulance"),
@@ -79,7 +107,7 @@ class _BookAmbulanceState extends State<BookAmbulance> {
                         fontSize: 15,
                       )),
                   SizedBox(
-                    width: 120,
+                    width: SizeConfig.safeBlockHorizontal * 25,
                   ),
                   InkWell(
                     child: Row(children: [
@@ -108,7 +136,7 @@ class _BookAmbulanceState extends State<BookAmbulance> {
                 )),
               ),
               SizedBox(
-                height: 10,
+                height: SizeConfig.safeBlockVertical * 2,
               ),
               Image.asset(
                 'assets/images/path.png',
@@ -116,7 +144,7 @@ class _BookAmbulanceState extends State<BookAmbulance> {
                 width: 30,
               ),
               SizedBox(
-                height: 10,
+                height: SizeConfig.safeBlockVertical * 2,
               ),
               Text("DROP LOCATION",
                   style: TextStyle(
@@ -132,7 +160,7 @@ class _BookAmbulanceState extends State<BookAmbulance> {
                 )),
               ),
               SizedBox(
-                height: 30,
+                height: SizeConfig.safeBlockVertical * 3,
               ),
               Text("SELECT REQUEST TYPE",
                   style: TextStyle(
@@ -151,7 +179,7 @@ class _BookAmbulanceState extends State<BookAmbulance> {
                       borderRadius: BorderRadius.all(Radius.circular(4.0)),
                     ),
                   ),
-                  width: 400.0,
+                  width: SizeConfig.safeBlockHorizontal * 100,
                   height: 60,
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton<Item>(
@@ -183,14 +211,14 @@ class _BookAmbulanceState extends State<BookAmbulance> {
                     ),
                   )),
               SizedBox(
-                height: 30,
+                height: SizeConfig.safeBlockVertical * 3,
               ),
               Text("SELECT DATE AND TIME",
                   style: TextStyle(
                     fontSize: 15,
                   )),
               SizedBox(
-                height: 10,
+                height: SizeConfig.safeBlockVertical * 3,
               ),
               DateTimeField(
                 controller: dueDate,
@@ -226,17 +254,17 @@ class _BookAmbulanceState extends State<BookAmbulance> {
                 onChanged: (value) {},
               ),
               SizedBox(
-                height: 50,
+                height: SizeConfig.safeBlockVertical * 5,
               ),
               Container(
                 width: double.infinity,
                 child: RaisedButton(
                   onPressed: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //       builder: (context) => RegisterPage(),
-                    //     ));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Hospitals(),
+                        ));
                   },
                   color: Colors.red,
                   textColor: Colors.white,

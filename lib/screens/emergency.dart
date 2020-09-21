@@ -20,7 +20,9 @@ class _EmergencyState extends State<Emergency> {
         title: Text("Dial 108"),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.phone),
+            icon: Icon(
+              Icons.phone,
+            ),
             onPressed: () => launch("tel://108"),
           )
         ],
@@ -35,46 +37,61 @@ class _EmergencyState extends State<Emergency> {
             SizedBox(
               height: 15,
             ),
-            TextField(
-              controller: nameController,
-              autocorrect: true,
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                  hintText: 'Name',
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                    borderSide: BorderSide(width: 1, color: Colors.white70),
-                  ),
-                  border: OutlineInputBorder(
+            Theme(
+              data: new ThemeData(
+                primaryColor: Colors.black,
+              ),
+              child: TextField(
+                controller: nameController,
+                autocorrect: true,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                    hintText: 'Name',
+                    labelText: 'Name',
+                    enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(4)),
-                      borderSide: BorderSide(width: 1, color: Colors.green)),
-                  fillColor: Colors.red[600],
-                  filled: true,
-                  icon: Icon(Icons.account_box)),
+                      borderSide: BorderSide(width: 2, color: Colors.red[900]),
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        borderSide: BorderSide(width: 1, color: Colors.black)),
+                    fillColor: Colors.red[600],
+                    filled: true,
+                    icon: Icon(
+                      Icons.account_box,
+                      color: Colors.black,
+                    )),
+              ),
             ),
             SizedBox(
               height: 15,
             ),
-            TextField(
-              controller: phoneController,
-              autocorrect: true,
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                  hintText: 'Mobile number',
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                    borderSide: BorderSide(width: 1, color: Colors.white70),
-                  ),
-                  border: OutlineInputBorder(
+            Theme(
+              data: new ThemeData(
+                primaryColor: Colors.black,
+              ),
+              child: TextField(
+                controller: phoneController,
+                autocorrect: true,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                    hintText: 'Mobile number',
+                    labelText: 'Mobile number',
+                    enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(4)),
-                      borderSide: BorderSide(width: 1, color: Colors.green)),
-                  fillColor: Colors.red[600],
-                  filled: true,
-                  icon: Icon(Icons.phone_iphone)),
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                WhitelistingTextInputFormatter.digitsOnly
-              ],
+                      borderSide: BorderSide(width: 2, color: Colors.red[900]),
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                        borderSide: BorderSide(width: 1, color: Colors.black)),
+                    fillColor: Colors.red[600],
+                    filled: true,
+                    icon: Icon(Icons.phone_iphone, color: Colors.black)),
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  WhitelistingTextInputFormatter.digitsOnly
+                ],
+              ),
             ),
             SizedBox(
               height: 100,
@@ -106,5 +123,3 @@ class _EmergencyState extends State<Emergency> {
     );
   }
 }
-
-

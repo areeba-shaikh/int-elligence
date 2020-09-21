@@ -38,6 +38,9 @@ dependencies:
   flutter_datetime_picker: ^1.4.0
   location: ^3.0.2
   geocoder: ^0.2.1
+  flutter_screenutil: ^3.0.1
+  responsive_framework: ^0.0.8
+  livemap: ^0.6.0
 
 flutter_icons:
   image_path_android: "assets/images/ICON.jpeg"
@@ -88,3 +91,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+

@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+
 class Hospitals extends StatefulWidget {
   @override
   _HospitalsState createState() => _HospitalsState();
@@ -57,8 +58,7 @@ class _HospitalsState extends State<Hospitals> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
                   return Card(
-                    color: Colors.blue[200],
-          
+                    color: Colors.blueAccent,
                     child: ListTile(
                       leading: Icon(
                         Icons.access_time,
@@ -78,7 +78,6 @@ class _HospitalsState extends State<Hospitals> {
                     ),
                   );
                 },
-        
               );
             } else {
               return Center(
