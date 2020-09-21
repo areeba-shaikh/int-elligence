@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
                   width: 300,
                 ),
                 SizedBox(
-                  height: 150,
+                  height: 80,
                 ),
                 Container(
                   width: double.infinity,
@@ -162,6 +162,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                       height: 30,
                     ),
                     MaterialButton(
+                      height: 40,
                       child: setUpButtonChild(),
                       onPressed: () {
                         setState(() {
@@ -233,8 +234,12 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
         ),
       );
     } else if (_state == 1) {
-      return CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+      return SizedBox(
+        height: 25,
+        width: 25,
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        ),
       );
     } else {
       return Text("Login");
@@ -246,7 +251,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
       _state = 1;
     });
 
-    Timer(Duration(milliseconds: 2100), () {
+    Timer(Duration(milliseconds: 2300), () {
       setState(() {
         _state = 2;
       });

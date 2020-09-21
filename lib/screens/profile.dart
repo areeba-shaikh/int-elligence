@@ -1,10 +1,5 @@
-import 'package:ambulance/screens/login.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-
-import 'database-manager.dart';
-
-import 'User.dart';
 
 class MyProfile extends StatefulWidget {
   @override
