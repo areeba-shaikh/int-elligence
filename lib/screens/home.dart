@@ -1,9 +1,11 @@
 import 'package:ambulance/screens/initial.dart';
+import 'package:ambulance/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:ambulance/screens/bookambulance.dart';
 import 'package:ambulance/screens/emergency.dart';
+//import 'package:ambulance/screens/about.dart';
 import 'package:location/location.dart';
 import 'package:geocoder/geocoder.dart';
 
@@ -39,7 +41,7 @@ class SizeConfig {
 }
 
 class _HomePageState extends State<HomePage> {
-  //TextEditingController locController = TextEditingController();
+  TextEditingController locController = TextEditingController();
   getUserLocation() async {
     //call this async method from whereever you need
 
@@ -64,9 +66,15 @@ class _HomePageState extends State<HomePage> {
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
-    print(' ${first.subLocality},${first.locality}, ${first.adminArea}, ');
-    //locController.text = first.addressLine;
+    print('${first.locality}, ${first.adminArea}, ');
+    locController.text = first.locality + "," + first.adminArea;
     return first;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserLocation();
   }
 
   @override
@@ -98,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                         height: 30,
                       ),
                       Container(
-                        width: 100.0,
+                        width: 120.0,
                         height: 200.0,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -111,6 +119,12 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(
                                 fontSize: 20,
                               ),
+                            ),
+                            TextField(
+                              controller: locController,
+                              autocorrect: true,
+                              enabled: false,
+                              decoration: InputDecoration(),
                             ),
                             // Text("${first.addressLine})",
                             //   textAlign: TextAlign.left,
@@ -143,7 +157,11 @@ class _HomePageState extends State<HomePage> {
                         hoverColor: Colors.lightBlue,
                         focusColor: Colors.indigo,
                         onTap: () {
-                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MyProfile(),
+                              ));
                         },
                       ),
                       Divider(
@@ -179,7 +197,11 @@ class _HomePageState extends State<HomePage> {
                         hoverColor: Colors.lightBlue,
                         focusColor: Colors.indigo,
                         onTap: () {
-                          Navigator.pop(context);
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: (context) => AboutUs(),
+                          //     ));
                         },
                       ),
                       Divider(
