@@ -2,12 +2,15 @@ import 'package:ambulance/screens/initial.dart';
 import 'package:ambulance/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong/latlong.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:ambulance/screens/bookambulance.dart';
 import 'package:ambulance/screens/emergency.dart';
 import 'package:ambulance/screens/about.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart' as loc;
 import 'package:geocoder/geocoder.dart';
+import 'package:geolocation/geolocation.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -45,9 +48,9 @@ class _HomePageState extends State<HomePage> {
   getUserLocation() async {
     //call this async method from whereever you need
 
-    LocationData myLocation;
+    loc.LocationData myLocation;
     String error;
-    Location location = new Location();
+    loc.Location location = new loc.Location();
     try {
       myLocation = await location.getLocation();
     } on PlatformException catch (e) {
@@ -76,6 +79,38 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     getUserLocation();
+  }
+
+  MapController controller = new MapController();
+
+  getPermission() async {
+    final GeolocationResult result =
+        await Geolocation.requestLocationPermission(
+            permission: const LocationPermission(
+                android: LocationPermissionAndroid.fine,
+                ios: LocationPermissionIOS.always));
+    return result;
+  }
+
+  getLocation() {
+    return getPermission().then((result) async {
+      if (result.isSuccessful) {
+        final coords =
+            await Geolocation.currentLocation(accuracy: LocationAccuracy.best);
+      }
+    });
+  }
+
+  buildMap() {
+    getLocation().then((response) {
+      if (response.isSuccessful) {
+        response.listen((value) {
+          controller.move(
+              new LatLng(value.location.latitude, value.location.longitude),
+              15.0);
+        });
+      }
+    });
   }
 
   @override
@@ -254,112 +289,129 @@ class _HomePageState extends State<HomePage> {
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(
-            child: Flex(
-              direction: Axis.vertical,
-              children: [
-                Row(
+            child: Flex(direction: Axis.vertical, children: [
+              Stack(children: [
+                Container(
+                  height: 800,
+                  child: FlutterMap(
+                    mapController: controller,
+                    options: new MapOptions(center: buildMap(), minZoom: 5.0),
+                    layers: [
+                      TileLayerOptions(
+                          urlTemplate:
+                              "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                          subdomains: ['a', 'b', 'c'])
+                    ],
+                  ),
+                ),
+                Flex(
+                  direction: Axis.vertical,
                   children: [
-                    SizedBox(
-                      width: SizeConfig.safeBlockHorizontal * 65,
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: SizeConfig.safeBlockHorizontal * 65,
+                        ),
+                        RaisedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Emergency(),
+                                ));
+                          },
+                          color: Colors.red,
+                          textColor: Colors.white,
+                          //padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
+                          child: Text("Emergency"),
+                        ),
+                      ],
                     ),
-                    RaisedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Emergency(),
-                            ));
-                      },
-                      color: Colors.red,
-                      textColor: Colors.white,
-                      //padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
-                      child: Text("Emergency"),
+                    SizedBox(height: SizeConfig.safeBlockVertical * 45),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: SizeConfig.safeBlockHorizontal * 10,
+                        ),
+                        Container(
+                          height: SizeConfig.safeBlockVertical *
+                              15, //10 for example
+                          width: SizeConfig.safeBlockHorizontal * 35,
+                          child: RaisedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => BookAmbulance(),
+                                  ));
+                            },
+                            color: Colors.blue,
+                            textColor: Colors.white,
+                            //padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
+                            child: Text("Book Ambulance"),
+                          ),
+                        ),
+                        SizedBox(
+                          width: SizeConfig.safeBlockHorizontal * 10,
+                        ),
+                        Container(
+                          height: SizeConfig.safeBlockVertical *
+                              15, //10 for example
+                          width: SizeConfig.safeBlockHorizontal * 35,
+                          child: RaisedButton(
+                            onPressed: () =>
+                                MapsLauncher.launchQuery('Nearby Clinics'),
+                            color: Colors.blue,
+                            textColor: Colors.white,
+                            //padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
+                            child: Text("Doctors"),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: SizeConfig.safeBlockVertical * 5,
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: SizeConfig.safeBlockHorizontal * 10,
+                        ),
+                        Container(
+                          height: SizeConfig.safeBlockVertical *
+                              15, //10 for example
+                          width: SizeConfig.safeBlockHorizontal * 35,
+                          child: RaisedButton(
+                            onPressed: () => MapsLauncher.launchQuery(
+                                'Nearby Medical Store'),
+                            color: Colors.blue,
+                            textColor: Colors.white,
+                            //padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
+                            child: Text("Pharmacy"),
+                          ),
+                        ),
+                        SizedBox(
+                          width: SizeConfig.safeBlockHorizontal * 10,
+                        ),
+                        Container(
+                          height: SizeConfig.safeBlockVertical *
+                              15, //10 for example
+                          width: SizeConfig.safeBlockHorizontal * 35,
+                          child: RaisedButton(
+                            onPressed: () =>
+                                MapsLauncher.launchQuery('Nearby Hospitals'),
+                            color: Colors.blue,
+                            textColor: Colors.white,
+                            //padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
+                            child: Text("Hospitals"),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                SizedBox(height: SizeConfig.safeBlockVertical * 45),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: SizeConfig.safeBlockHorizontal * 10,
-                    ),
-                    Container(
-                      height:
-                          SizeConfig.safeBlockVertical * 15, //10 for example
-                      width: SizeConfig.safeBlockHorizontal * 35,
-                      child: RaisedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => BookAmbulance(),
-                              ));
-                        },
-                        color: Colors.blue,
-                        textColor: Colors.white,
-                        //padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
-                        child: Text("Book Ambulance"),
-                      ),
-                    ),
-                    SizedBox(
-                      width: SizeConfig.safeBlockHorizontal * 10,
-                    ),
-                    Container(
-                      height:
-                          SizeConfig.safeBlockVertical * 15, //10 for example
-                      width: SizeConfig.safeBlockHorizontal * 35,
-                      child: RaisedButton(
-                        onPressed: () =>
-                            MapsLauncher.launchQuery('Nearby Clinics'),
-                        color: Colors.blue,
-                        textColor: Colors.white,
-                        //padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
-                        child: Text("Doctors"),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: SizeConfig.safeBlockVertical * 5,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: SizeConfig.safeBlockHorizontal * 10,
-                    ),
-                    Container(
-                      height:
-                          SizeConfig.safeBlockVertical * 15, //10 for example
-                      width: SizeConfig.safeBlockHorizontal * 35,
-                      child: RaisedButton(
-                        onPressed: () =>
-                            MapsLauncher.launchQuery('Nearby Medical Store'),
-                        color: Colors.blue,
-                        textColor: Colors.white,
-                        //padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
-                        child: Text("Pharmacy"),
-                      ),
-                    ),
-                    SizedBox(
-                      width: SizeConfig.safeBlockHorizontal * 10,
-                    ),
-                    Container(
-                      height:
-                          SizeConfig.safeBlockVertical * 15, //10 for example
-                      width: SizeConfig.safeBlockHorizontal * 35,
-                      child: RaisedButton(
-                        onPressed: () =>
-                            MapsLauncher.launchQuery('Nearby Hospitals'),
-                        color: Colors.blue,
-                        textColor: Colors.white,
-                        //padding: EdgeInsets.fromLTRB(9, 9, 9, 9),
-                        child: Text("Hospitals"),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+              ])
+            ]),
           ),
         ));
   }

@@ -39,6 +39,8 @@ dependencies:
   location: ^3.0.2
   geocoder: ^0.2.1
   responsive_framework: ^0.0.8
+  flutter_map: ^0.10.1+1
+  geolocation: ^1.1.2
 
 flutter_icons:
   image_path_android: "assets/images/ICON.jpeg"
